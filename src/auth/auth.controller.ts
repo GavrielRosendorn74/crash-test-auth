@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { SignUpDto } from './dtos/sign_up.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { LocalGuard } from './guards/local.guard';
+import { JwtGuard } from './guards/jwt.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,5 +20,13 @@ export class AuthController {
   @UseGuards(LocalGuard)
   logIn(@Req() req) {
     return this.authservice.logIn(req.user);
+  }
+
+  @Get('is_connected')
+  @UseGuards(JwtGuard)
+  isConnected() {
+    return {
+      status: 'CONNECTED'
+    };
   }
 }
